@@ -1,0 +1,47 @@
+<html>
+	<head>
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+		<style type="text/css">
+			html {height: 100%}
+			body {height: 100%; margin: 0; padding: 0}
+			#map-canvas {height: 100%}
+		</style>
+			<script src="components/jquery-2.1.1.min.js"></script>
+			<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDL1BCuh_sR6qy-PmKJyCMB9fzQSozVj0I"></script>
+			<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+			<script type="text/javascript">
+	$(document).ready(function(){
+		//Load dữ liệu từ server về và tr
+		$("#process").click(function(e) {
+			//=======$.get(url,success())================
+			var url,data2;
+
+			//=========script==============
+			url = "get_location.php";
+			$.get("get_location.php",{
+					newxsrequest:"1",
+					latest_value:"x"
+				},function(data){
+					x = data;
+					console.log(data);
+					console.log(data[0]);
+					console.log(data[1]);
+				});
+        });
+	});
+</script>
+	</head>
+	<body>
+	<center>
+    	<h1>
+          jQuery.get(url[,data][,success(data,textStatus,jqXHR)][,dataType])
+       </h1>
+    </center>
+    
+    <div id="info" class="info">Ready...</div>
+   
+    <center>
+    	<input type="button" class="button" id="process" value="Process"/>
+    </center>
+	</body>
+</html>

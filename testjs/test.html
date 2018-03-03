@@ -1,0 +1,106 @@
+
+<!--
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    $("button").click(function(){
+        $.ajax({url: "json.php", success: function(result){
+            $("#div1").html(result);
+        }});
+    });
+});
+</script>
+</head>
+<body>
+
+<div id="div1"><h2>Let jQuery AJAX Change This Text</h2></div>
+
+<button>Get External Content</button>
+
+</body>
+</html>
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Google Maps JavaScript API v3: Heatmap Layer</title>
+<link href="http://code.google.com//apis/maps/documentation/javascript/examples/default.css" rel="stylesheet" type="text/css">
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyARlQ18jgebwhAqybjq4FXAeBkBqJ1Egb8&sensor=true&libraries=visualization">
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script>
+var map, pointArray, heatmap;
+var heatMapData = [];   //empty array for storing latitude,longitude and weight values
+function initialize() {
+
+  var mapOptions = {
+    zoom: 8,
+    center: new google.maps.LatLng(-33.861034, 151.171936),
+    mapTypeId: google.maps.MapTypeId.ROADMAP,
+    };
+    var map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
+
+$(document).ready(function(){
+        $.ajax({
+        	url: "json.php", 
+        	success: function(result){
+        		    heatMapData = JSON.parse(result);
+            for(var i = 0; i<heatMapData.length; ++i){
+            	var elem = heatMapData[t];
+            	elem.location = new google.maps.LatLng(elem.location[0], elem.location[1]);
+            }
+
+    pointArray = new google.maps.MVCArray(heatMapData);
+
+    var heatmap = new google.maps.visualization.HeatmapLayer({
+    data: pointArray,
+    dissipating: true,
+    radius: 100,
+    maxIntensity: 3
+    });
+
+    heatmap.setMap(map);
+      $("#div1").html(result);
+       }
+
+   });
+});
+
+  }
+
+function downloadUrl(url) 
+{
+   var request = ( window.XMLHttpRequest != null ) 
+          ? new XMLHttpRequest()
+          : new ActiveXObject('Microsoft.XMLHTTP');
+   request.open('GET', url, false);
+   request.send(null);
+   return request.responseText;
+}
+
+
+function myFunction()
+{
+    var json = JSON.stringify(heatMapData);  
+    var x=document.getElementById("demo");
+    x.innerHTML=json;
+}
+
+google.maps.event.addDomListener(window, 'load', initialize, downloadUrl, myFunction);
+
+</script>
+</head>
+<body>
+<div id="map_canvas" style="height: 500px; width: 1500px;"></div>
+<p id="demo"><b>VIEW ARRAY</b></p>
+<p id="heat"><b>VIEW HEAT</b></p>
+<button onclick="myFunction()">VIEW</button>
+<div id="div1"><h2>Let jQuery AJAX Change This Text</h2></div>
+</body>
+</html>
